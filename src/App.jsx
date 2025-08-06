@@ -1,10 +1,10 @@
-import CurrentWeather from "./component/currentWeather"
+import WeatherApp from "./component/weatherApp.jsx"
 
 function App() {
 
   return (
     <>
-      <CurrentWeather/>
+      <WeatherApp/>
     </>
   )
 }

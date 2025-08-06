@@ -1,0 +1,19 @@
+.windpressure{
+    /* border: solid; */
+    color: black;
+    
+    display: flex;
+    flex-direction: column;
+    padding: 10px 10px 15px 10px;
+    /* width: fit-content; */
+    width: 100%; 
+    justify-content: space-between;
+
+    /* background: linear-gradient(145deg,rgb(0, 221, 155) 0%,rgb(0, 221, 155) 30%,rgb(0, 162, 255)50%,rgb(0, 162, 255)70%,rgb(111, 0, 255) 90%,rgb(111, 0, 255) 100%); */
+    /* background: linear-gradient(to right, #ECE9E6, #FFFFFF); */
+    border-radius: 4px;
+}
+p{
+    margin: 0;
+    display: inline;
+}
