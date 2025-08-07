@@ -88,3 +88,16 @@ b{
 b{
     display: flex;
 }
+@media(max-width: 500px){
+    /* .icon{
+    height: 70px;;
+} */
+.big-box-light,
+.big-box-dark{
+    /* font-size: 16px; */
+    grid-template-columns: 1fr;
+}
+.two{
+    padding-top: 0px;
+}
+}
