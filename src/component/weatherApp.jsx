@@ -54,15 +54,15 @@ function Weatherapp() {
 
 
                 tempCel: data.current.temp_c,
-                IsDay: data.current.is_day? "Day":"Night",
+                IsDay: data.current.is_day ? "Day" : "Night",
                 isDayTrue: data.current.is_day,
                 iconWeather: data.current.condition.icon,
                 uvIndex: data.current.uv,
                 pressure: data.current.pressure_in,
-                maxTemp:data.forecast.forecastday[0].day.maxtemp_c,
-                minTemp:data.forecast.forecastday[0].day.mintemp_c,
-                sunrise:data.forecast.forecastday[0].astro.sunrise,
-                sunset:data.forecast.forecastday[0].astro.sunset,
+                maxTemp: data.forecast.forecastday[0].day.maxtemp_c,
+                minTemp: data.forecast.forecastday[0].day.mintemp_c,
+                sunrise: data.forecast.forecastday[0].astro.sunrise,
+                sunset: data.forecast.forecastday[0].astro.sunset,
 
             })
         }
@@ -134,57 +134,43 @@ function Weatherapp() {
         console.log(city)
         console.log(data)
     }
+
+
     
-                
-    const getBackgroundImageStyle = (condition) => {
-    let imageUrl;
 
-    switch (condition) {
-        case "Sunny":
-            imageUrl = sunnyImg;
-            break;
-        case "Partly cloudy":
-        case "Partly Cloudy":
-            imageUrl = partlyCloudyImg;
-            break;
-        case "Cloudy":
-            imageUrl = cloudyImg;
-            break;
-        case "Rain":
-            imageUrl = rainImg;
-            break;
-        case "Snow":
-            imageUrl = snowImg;
-            break;
-        case "Thunderstorm":
-        case "Overcast":
-        case "Patchy light rain with thunder":
-        case "Moderate or heavy rain with thunder":
-            imageUrl = thunderstormImg;
-            break;
-        case "Mist":
-        case "Clear":
-            imageUrl = mistImg;
-            break;
-        case "Light rain":
-        case "Light rain shower":
-        case "Patchy rain nearby":
-            imageUrl = lightRainShowerImg;
-            break;
-        default:
-            imageUrl = defaultImg;
-            break;
-        }
+        const getBackgroundImageStyle = (condition) => {
+            const lowerCond = typeof condition === 'string' ? condition.toLowerCase() : '';
 
-        return {
-            backgroundImage: `url(${imageUrl})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            backdropFilter: 'blur(2px)', // Optional
-            transition: 'background-image 0.5s ease-in-out',
+            let imageUrl;
+
+            if (lowerCond.includes("sunny")) {
+                imageUrl = sunnyImg;
+            } else if (lowerCond.includes("partly cloudy") || lowerCond.includes("partly")) {
+                imageUrl = partlyCloudyImg;
+            } else if (lowerCond.includes("cloudy") || lowerCond.includes("cloud")) {
+                imageUrl = cloudyImg;
+            } else if (lowerCond.includes("rain") || lowerCond.includes("drizzle")) {
+                // This catches: light rain, rain shower, patchy rain, etc.
+                imageUrl = lightRainShowerImg;
+            } else if (lowerCond.includes("thunder") || lowerCond.includes("overcast")) {
+                imageUrl = thunderstormImg;
+            } else if (lowerCond.includes("snow")) {
+                imageUrl = snowImg;
+            } else if (lowerCond.includes("mist") || lowerCond.includes("clear") || lowerCond.includes("fog")) {
+                imageUrl = mistImg;
+            } else {
+                imageUrl = defaultImg; // fallback
+            }
+
+            return {
+                backgroundImage: `url(${imageUrl})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                backdropFilter: 'blur(2px)',
+                transition: 'background-image 0.5s ease-in-out',
+            };
         };
-    };
 
 
 
@@ -192,128 +178,184 @@ function Weatherapp() {
 
 
 
-    const getBackgroundStyle = (condition) => {
-        if (condition === "Sunny") {
-            return {
-                background: "linear-gradient(to right, rgba(251, 194, 235, 0.85), rgba(255, 184, 126, 0.85))",
-                backdropFilter: "blur(2px)",
-                className: "SunnyBackground"
-            };
-        } else if (condition === "Partly cloudy" || condition === "Partly Cloudy") {
-            return {
-                background: "linear-gradient(to top, rgba(127, 158, 216, 0.85), rgba(198, 222, 255, 0.85))",
-                backdropFilter: "blur(2px)"
-            };
-        } else if (condition === "Cloudy") {
-            return {
-                background: "linear-gradient(to right, rgba(201, 188, 188, 0.85), rgba(44, 62, 80, 0.85))",
-                color: "white",
-                backdropFilter: "blur(2px)"
-            };
-        } else if (condition === "Rain") {
-            return {
-                background: "linear-gradient(to right, rgba(95, 156, 255, 0.85), rgba(194, 233, 251, 0.85))",
-                backdropFilter: "blur(2px)"
-            };
-        } else if (condition === "Snow") {
-            return {
-                background: "linear-gradient(to right, rgba(224, 234, 252, 0.85), rgba(255, 255, 255, 0.85))",
-                backdropFilter: "blur(2px)"
-            };
-        } else if (condition === "Thunderstorm" || condition === "Overcast" || condition === "Patchy light rain with thunder" || condition === "Moderate or heavy rain with thunder") {
-            return {
-                background: "linear-gradient(to right, rgba(32, 49, 63, 0.85), rgba(88, 105, 122, 0.85))",
-                color: "white", 
-                backdropFilter: "blur(2px)"
-            };
-        } else if (condition === "Mist" || condition === "Clear") {
-            return {
-                background: "linear-gradient(to right, rgba(221, 221, 221, 0.85), rgba(81, 98, 117, 0.85))",
-                backdropFilter: "blur(2px)"
-            };
-        } else if (condition === "Light rain shower" || condition === "Light rain" || condition === "Patchy rain nearby"){
-            return {
-                background: "linear-gradient(to right, rgba(221, 221, 221, 0.85), rgba(81, 98, 117, 0.85))",
-                backdropFilter: "blur(2px)"
-            };}
-        else {
-            return {
-                background: "linear-gradient(to right, rgba(255, 172, 89, 0.85), rgba(255, 160, 160, 0.85))",
-                backdropFilter: "blur(2px)"
-            }; // default
-        }
-    };
-    return (
-        <div className="all" style={getBackgroundImageStyle(data.WeatherConditionText)}>
-            <h1 style={{ marginTop: "0", textShadow: "1px 1px 10px black" }}>Weather App: </h1>
-            <div className="input-search-dropdown">
-                <div className="input-search-dropdown-subdiv">
-                    <div className="input-button">
-                        <input className="input-city"
-                            onChange={cityInputHandler}
-                            onKeyDown={handleKeyDown}
-                            value={city}
-                            placeholder="City..."
-                        />
 
-                        <button onClick={buttonSearchHandler}
-                            className="search-button">Search</button>
+        // const getBackgroundStyle = (condition) => {
+        //     // const cond = condition.toLowerCase();
+
+        //     if (condition === "Sunny") {
+        //         return {
+        //             background: "linear-gradient(to right, rgba(251, 194, 235, 0.85), rgba(255, 184, 126, 0.85))",
+        //             backdropFilter: "blur(2px)",
+        //             className: "SunnyBackground"
+        //         };
+        //     } else if (condition === "Partly cloudy" || condition === "Partly Cloudy") {
+        //         return {
+        //             background: "linear-gradient(to top, rgba(127, 158, 216, 0.85), rgba(198, 222, 255, 0.85))",
+        //             backdropFilter: "blur(2px)"
+        //         };
+        //     } else if (condition === "Cloudy") {
+        //         return {
+        //             background: "linear-gradient(to right, rgba(201, 188, 188, 0.85), rgba(44, 62, 80, 0.85))",
+        //             color: "white",
+        //             backdropFilter: "blur(2px)"
+        //         };
+        //     } else if (condition === "Rain") {
+        //         return {
+        //             background: "linear-gradient(to right, rgba(95, 156, 255, 0.85), rgba(194, 233, 251, 0.85))",
+        //             backdropFilter: "blur(2px)"
+        //         };
+        //     } else if (condition === "Snow") {
+        //         return {
+        //             background: "linear-gradient(to right, rgba(224, 234, 252, 0.85), rgba(255, 255, 255, 0.85))",
+        //             backdropFilter: "blur(2px)"
+        //         };
+        //     } else if (condition === "Thunderstorm" || condition === "Overcast" || condition === "Patchy light rain with thunder" || condition === "Moderate or heavy rain with thunder") {
+        //         return {
+        //             background: "linear-gradient(to right, rgba(32, 49, 63, 0.85), rgba(88, 105, 122, 0.85))",
+        //             color: "white", 
+        //             backdropFilter: "blur(2px)"
+        //         };
+        //     } else if (condition === "Mist" || condition === "Clear") {
+        //         return {
+        //             background: "linear-gradient(to right, rgba(221, 221, 221, 0.85), rgba(81, 98, 117, 0.85))",
+        //             backdropFilter: "blur(2px)"
+        //         };
+        //     } else if (condition === "Light rain shower" || condition === "Light rain" || condition === "Patchy rain nearby"){
+        //         return {
+        //             background: "linear-gradient(to right, rgba(221, 221, 221, 0.85), rgba(81, 98, 117, 0.85))",
+        //             backdropFilter: "blur(2px)"
+        //         };}
+        //     else {
+        //         return {
+        //             background: "linear-gradient(to right, rgba(255, 172, 89, 0.85), rgba(255, 160, 160, 0.85))",
+        //             backdropFilter: "blur(2px)"
+        //         }; // default
+        //     }
+        // };
+
+
+
+
+
+        const getBackgroundStyle = (condition) => {
+            const cond = condition.toLowerCase();
+
+            if (cond.includes("sunny")) {
+                return {
+                    background: "linear-gradient(to right, rgba(251, 194, 235, 0.85), rgba(255, 184, 126, 0.85))",
+                    backdropFilter: "blur(2px)"
+                };
+            } else if (cond.includes("partly") || cond.includes("cloudy")) {
+                return {
+                    background: "linear-gradient(to top, rgba(127, 158, 216, 0.85), rgba(198, 222, 255, 0.85))",
+                    backdropFilter: "blur(2px)"
+                };
+            } else if (cond.includes("overcast")) {
+                return {
+                    background: "linear-gradient(to right, rgba(201, 188, 188, 0.85), rgba(44, 62, 80, 0.85))",
+                    color: "white",
+                    backdropFilter: "blur(2px)"
+                };
+            } else if (cond.includes("thunder")) {
+                return {
+                    background: "linear-gradient(to right, rgba(32, 49, 63, 0.85), rgba(88, 105, 122, 0.85))",
+                    color: "white",
+                    backdropFilter: "blur(2px)"
+                };
+            } else if (cond.includes("rain")) {
+                return {
+                    background: "linear-gradient(to right, rgba(95, 156, 255, 0.85), rgba(194, 233, 251, 0.85))",
+                    backdropFilter: "blur(2px)"
+                };
+            } else if (cond.includes("snow")) {
+                return {
+                    background: "linear-gradient(to right, rgba(224, 234, 252, 0.85), rgba(255, 255, 255, 0.85))",
+                    backdropFilter: "blur(2px)"
+                };
+            } else if (cond.includes("mist") || cond.includes("fog") || cond.includes("clear")) {
+                return {
+                    background: "linear-gradient(to right, rgba(221, 221, 221, 0.85), rgba(81, 98, 117, 0.85))",
+                    backdropFilter: "blur(2px)"
+                };
+            } else {
+                return {
+                    background: "linear-gradient(to right, rgba(255, 172, 89, 0.85), rgba(255, 160, 160, 0.85))",
+                    backdropFilter: "blur(2px)"
+                }; // default fallback
+            }
+        };
+
+        return (
+            <div className="all" style={getBackgroundImageStyle(data.WeatherConditionText)}>
+                <h1 style={{ marginTop: "0", textShadow: "1px 1px 10px black" }}>Weather App: </h1>
+                <div className="input-search-dropdown">
+                    <div className="input-search-dropdown-subdiv">
+                        <div className="input-button">
+                            <input className="input-city"
+                                onChange={cityInputHandler}
+                                onKeyDown={handleKeyDown}
+                                value={city}
+                                placeholder="City..."
+                            />
+
+                            <button onClick={buttonSearchHandler}
+                                className="search-button">Search</button>
+                        </div>
+                        {suggestions.length > 0 && (
+                            <ul className="autocomplete-list">
+                                {suggestions.map((s, index) => (
+                                    <li
+                                        key={index}
+                                        onClick={() => selectSuggestion(s.name, s.region, s.country)}
+                                        className={index === highlightedIndex ? "highlighted" : ""}
+                                    >
+                                        {s.name}, {s.region}, {s.country}
+                                    </li>
+                                ))}
+                            </ul>
+
+                        )}
                     </div>
-                    {suggestions.length > 0 && (
-                        <ul className="autocomplete-list">
-                            {suggestions.map((s, index) => (
-                                <li
-                                    key={index}
-                                    onClick={() => selectSuggestion(s.name, s.region, s.country)}
-                                    className={index === highlightedIndex ? "highlighted" : ""}
-                                >
-                                    {s.name}, {s.region}, {s.country}
-                                </li>
-                            ))}
-                        </ul>
-
-                    )}
                 </div>
+                {data.country !== "" && <div className="body-divs">
+                    <div className="region-wind">
+                        {data.country !== "" && <CountryRegion country={data.country}
+                            region={data.region}
+                            lat={data.lat}
+                            long={data.long}
+                            timeZone={data.timeZone}
+                            localTime={data.localTime}
+                            name={data.name}
+                            // conditionText={data.conditionText}
+                            style={{
+                                ...getBackgroundStyle(data.WeatherConditionText),
+                                flex: "1"
+                            }} />}
+                        {data.country !== "" && <WindPressure
+                            windSpeed={data.windSpeed}
+                            windDegree={data.windDegree}
+                            WeatherConditionText={data.WeatherConditionText}
+                            precipitationInInches={data.precipitationInInches}
+                            humidity={data.humidity}
+                            dateLastUpdated={data.dateLastUpdated}
+                            style={{
+                                ...getBackgroundStyle(data.WeatherConditionText),
+                                flex: "1"
+                            }} />}
+                    </div>
+                    <TempCel
+                        iconWeather={data.iconWeather}
+                        tempCel={data.tempCel}
+                        IsDay={data.IsDay}
+                        uvIndex={data.uvIndex}
+                        pressure={data.pressure}
+                        isDayTrue={data.isDayTrue}
+                        maxTemp={data.maxTemp}
+                        minTemp={data.minTemp}
+                        sunrise={data.sunrise}
+                        sunset={data.sunset} />
+                </div>}
             </div>
-            {data.country !== "" && <div className="body-divs">
-                <div className="region-wind">
-                    {data.country !== "" && <CountryRegion country={data.country}
-                        region={data.region}
-                        lat={data.lat}
-                        long={data.long}
-                        timeZone={data.timeZone}
-                        localTime={data.localTime}
-                        name={data.name}
-                        // conditionText={data.conditionText}
-                        style={{
-                            ...getBackgroundStyle(data.WeatherConditionText),
-                            flex: "1"
-                        }} />}
-                    {data.country !== "" && <WindPressure
-                        windSpeed={data.windSpeed}
-                        windDegree={data.windDegree}
-                        WeatherConditionText={data.WeatherConditionText}
-                        precipitationInInches={data.precipitationInInches}
-                        humidity={data.humidity}
-                        dateLastUpdated={data.dateLastUpdated}
-                        style={{
-                            ...getBackgroundStyle(data.WeatherConditionText),
-                            flex: "1"
-                        }} />}
-                </div>
-                <TempCel
-                    iconWeather={data.iconWeather}
-                    tempCel = {data.tempCel}
-                    IsDay = {data.IsDay}
-                    uvIndex = {data.uvIndex}
-                    pressure = {data.pressure}
-                    isDayTrue = {data.isDayTrue}
-                    maxTemp = {data.maxTemp}
-                    minTemp = {data.minTemp}
-                    sunrise = {data.sunrise}
-                    sunset = {data.sunset}/>
-            </div>}
-        </div>
-    )
-}
-export default Weatherapp;
+        )
+    }
+    export default Weatherapp;
