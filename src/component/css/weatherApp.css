@@ -1,17 +1,24 @@
 body{
   margin: 0;
 }
-.all{
-  height:97vh;
-  margin: 0;
+.cover-after-all{
+  background-color: rgba(0, 0, 0, 0.7);
+  margin:0;
   padding: 8px;
+  height: 100.5%;
+  width: 100%;
+}
+.all{
+  height:100vh;
+  margin: 0;
+  /* padding: 8px; */
   background: url('../images/startingBackgroundImage.jpg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
   /* width: 100vw; */
-  /* overflow: hidden; */
+  overflow: hidden;
 }
 .highlighted {
   /* padding: 5px 10px 5px 0; */

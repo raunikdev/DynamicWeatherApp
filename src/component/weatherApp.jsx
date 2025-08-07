@@ -245,44 +245,44 @@ function Weatherapp() {
 
             if (cond.includes("sunny")) {
                 return {
-                    background: "linear-gradient(to right, rgba(251, 194, 235, 0.85), rgba(255, 184, 126, 0.85))",
+                    background: "linear-gradient(to right, rgba(251, 194, 235, 0.6), rgba(255, 184, 126, 0.6))",
                     backdropFilter: "blur(2px)"
                 };
             } else if (cond.includes("partly") || cond.includes("cloudy")) {
                 return {
-                    background: "linear-gradient(to top, rgba(127, 158, 216, 0.85), rgba(198, 222, 255, 0.85))",
+                    background: "linear-gradient(to top, rgba(127, 158, 216, 0.6), rgba(198, 222, 255, 0.6))",
                     backdropFilter: "blur(2px)"
                 };
             } else if (cond.includes("overcast")) {
                 return {
-                    background: "linear-gradient(to right, rgba(201, 188, 188, 0.85), rgba(44, 62, 80, 0.85))",
+                    background: "linear-gradient(to right, rgba(201, 188, 188, 0.6), rgba(44, 62, 80, 0.6))",
                     color: "white",
                     backdropFilter: "blur(2px)"
                 };
             } else if (cond.includes("thunder")) {
                 return {
-                    background: "linear-gradient(to right, rgba(32, 49, 63, 0.85), rgba(88, 105, 122, 0.85))",
+                    background: "linear-gradient(to right, rgba(32, 49, 63, 0.6), rgba(88, 105, 122, 0.6))",
                     color: "white",
                     backdropFilter: "blur(2px)"
                 };
             } else if (cond.includes("rain")) {
                 return {
-                    background: "linear-gradient(to right, rgba(95, 156, 255, 0.85), rgba(194, 233, 251, 0.85))",
+                    background: "linear-gradient(to right, rgba(95, 156, 255, 0.6), rgba(194, 233, 251, 0.6))",
                     backdropFilter: "blur(2px)"
                 };
             } else if (cond.includes("snow")) {
                 return {
-                    background: "linear-gradient(to right, rgba(224, 234, 252, 0.85), rgba(255, 255, 255, 0.85))",
+                    background: "linear-gradient(to right, rgba(224, 234, 252, 0.6), rgba(255, 255, 255, 0.6))",
                     backdropFilter: "blur(2px)"
                 };
             } else if (cond.includes("mist") || cond.includes("fog") || cond.includes("clear")) {
                 return {
-                    background: "linear-gradient(to right, rgba(221, 221, 221, 0.85), rgba(81, 98, 117, 0.85))",
+                    background: "linear-gradient(to right, rgba(221, 221, 221, 0.6), rgba(81, 98, 117, 0.6))",
                     backdropFilter: "blur(2px)"
                 };
             } else {
                 return {
-                    background: "linear-gradient(to right, rgba(255, 172, 89, 0.85), rgba(255, 160, 160, 0.85))",
+                    background: "linear-gradient(to right, rgba(255, 172, 89, 0.6), rgba(255, 160, 160, 0.6))",
                     backdropFilter: "blur(2px)"
                 }; // default fallback
             }
@@ -290,74 +290,76 @@ function Weatherapp() {
 
         return (
             <div className="all" style={getBackgroundImageStyle(data.WeatherConditionText)}>
-                <h1 style={{ marginTop: "0", textShadow: "1px 1px 10px black" }}>Weather App: </h1>
-                <div className="input-search-dropdown">
-                    <div className="input-search-dropdown-subdiv">
-                        <div className="input-button">
-                            <input className="input-city"
-                                onChange={cityInputHandler}
-                                onKeyDown={handleKeyDown}
-                                value={city}
-                                placeholder="City..."
-                            />
+                <div className= {data.isDayTrue?"":"cover-after-all"} >
+                    <h1 style={{ marginTop: "0", textShadow: "1px 1px 10px black" }}>Weather App: </h1>
+                    <div className="input-search-dropdown">
+                        <div className="input-search-dropdown-subdiv">
+                            <div className="input-button">
+                                <input className="input-city"
+                                    onChange={cityInputHandler}
+                                    onKeyDown={handleKeyDown}
+                                    value={city}
+                                    placeholder="City..."
+                                />
 
-                            <button onClick={buttonSearchHandler}
-                                className="search-button">Search</button>
+                                <button onClick={buttonSearchHandler}
+                                    className="search-button">Search</button>
+                            </div>
+                            {suggestions.length > 0 && (
+                                <ul className="autocomplete-list">
+                                    {suggestions.map((s, index) => (
+                                        <li
+                                            key={index}
+                                            onClick={() => selectSuggestion(s.name, s.region, s.country)}
+                                            className={index === highlightedIndex ? "highlighted" : ""}
+                                        >
+                                            {s.name}, {s.region}, {s.country}
+                                        </li>
+                                    ))}
+                                </ul>
+
+                            )}
                         </div>
-                        {suggestions.length > 0 && (
-                            <ul className="autocomplete-list">
-                                {suggestions.map((s, index) => (
-                                    <li
-                                        key={index}
-                                        onClick={() => selectSuggestion(s.name, s.region, s.country)}
-                                        className={index === highlightedIndex ? "highlighted" : ""}
-                                    >
-                                        {s.name}, {s.region}, {s.country}
-                                    </li>
-                                ))}
-                            </ul>
-
-                        )}
                     </div>
+                    {data.country !== "" && <div className="body-divs">
+                        <div className="region-wind">
+                            {data.country !== "" && <CountryRegion country={data.country}
+                                region={data.region}
+                                lat={data.lat}
+                                long={data.long}
+                                timeZone={data.timeZone}
+                                localTime={data.localTime}
+                                name={data.name}
+                                // conditionText={data.conditionText}
+                                style={{
+                                    ...getBackgroundStyle(data.WeatherConditionText),
+                                    flex: "1"
+                                }} />}
+                            {data.country !== "" && <WindPressure
+                                windSpeed={data.windSpeed}
+                                windDegree={data.windDegree}
+                                WeatherConditionText={data.WeatherConditionText}
+                                precipitationInInches={data.precipitationInInches}
+                                humidity={data.humidity}
+                                dateLastUpdated={data.dateLastUpdated}
+                                style={{
+                                    ...getBackgroundStyle(data.WeatherConditionText),
+                                    flex: "1"
+                                }} />}
+                        </div>
+                        <TempCel
+                            iconWeather={data.iconWeather}
+                            tempCel={data.tempCel}
+                            IsDay={data.IsDay}
+                            uvIndex={data.uvIndex}
+                            pressure={data.pressure}
+                            isDayTrue={data.isDayTrue}
+                            maxTemp={data.maxTemp}
+                            minTemp={data.minTemp}
+                            sunrise={data.sunrise}
+                            sunset={data.sunset} />
+                    </div>}
                 </div>
-                {data.country !== "" && <div className="body-divs">
-                    <div className="region-wind">
-                        {data.country !== "" && <CountryRegion country={data.country}
-                            region={data.region}
-                            lat={data.lat}
-                            long={data.long}
-                            timeZone={data.timeZone}
-                            localTime={data.localTime}
-                            name={data.name}
-                            // conditionText={data.conditionText}
-                            style={{
-                                ...getBackgroundStyle(data.WeatherConditionText),
-                                flex: "1"
-                            }} />}
-                        {data.country !== "" && <WindPressure
-                            windSpeed={data.windSpeed}
-                            windDegree={data.windDegree}
-                            WeatherConditionText={data.WeatherConditionText}
-                            precipitationInInches={data.precipitationInInches}
-                            humidity={data.humidity}
-                            dateLastUpdated={data.dateLastUpdated}
-                            style={{
-                                ...getBackgroundStyle(data.WeatherConditionText),
-                                flex: "1"
-                            }} />}
-                    </div>
-                    <TempCel
-                        iconWeather={data.iconWeather}
-                        tempCel={data.tempCel}
-                        IsDay={data.IsDay}
-                        uvIndex={data.uvIndex}
-                        pressure={data.pressure}
-                        isDayTrue={data.isDayTrue}
-                        maxTemp={data.maxTemp}
-                        minTemp={data.minTemp}
-                        sunrise={data.sunrise}
-                        sunset={data.sunset} />
-                </div>}
             </div>
         )
     }

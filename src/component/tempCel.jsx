@@ -12,7 +12,7 @@ function TempCel(prop) {
                 <b><p className="two">{prop.IsDay} Time</p></b>
                 <b><p className="three">UV: {prop.uvIndex}</p></b>
                 <b><p className="four">Pressure(inHg): {prop.pressure}</p></b>
-                <b><p className="five">Temp:{prop.maxTemp}&deg;C- {prop.minTemp}&deg;C</p></b>
+                <b><p className="five">Temp:{prop.minTemp}&deg;C | {prop.maxTemp}&deg;C</p></b>
                 <b><p className="six">Sunrise: {prop.sunrise}<br />Sunset: {prop.sunset}</p></b>
 
 
