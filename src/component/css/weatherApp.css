@@ -1,10 +1,15 @@
 body{
-  height: 97vh;
+  margin: 0;
+}
+.all{
+  height:97vh;
   margin: 0;
   padding: 8px;
   background: url('../images/startingBackgroundImage.jpg');
   background-position: center;
-  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
 }
 .highlighted {
   /* padding: 5px 10px 5px 0; */
@@ -13,12 +18,12 @@ body{
 .autocomplete-list{
   list-style-type: none;
   min-width: 400px;
-  padding-left: 10px;
+  /* padding-left: 10px; */
   position: absolute;
   top: 56%;
   left: 0px;
   background-color: #2020202a;
-  padding: 10px;
+  padding: 0.5vh 10px;
   backdrop-filter: blur(10px);
   z-index: 100;
 }
@@ -28,7 +33,7 @@ body{
 }
 .input-city{
   min-width: 400px;
-  padding: 10px;
+  padding: 10px 10px;
   border-radius: 20px;
   border: none;
 }
@@ -50,14 +55,20 @@ body{
   border-radius: 20px;
   border: none;
   padding: 0 20px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(3px);
+  cursor: pointer;
+}
+.search-button:hover{
+  opacity: 0.8;
 }
 .region-wind{
   display: flex;
   flex-direction: column;
   width: fit-content;
   gap: 20px;
-  height: 500px;
-  flex-grow: 1;
+  height: 550px;
+  
 }
 .li{
   padding: 5px;
@@ -66,5 +77,27 @@ body{
 @media(max-width: 500px){
   .input-city{
     min-width: 200px;
+  }
+}
+
+
+
+.SunnyBackground{
+  background: url('../images/sunnyBackground.jpg');
+}
+.body-divs{
+  /* display: flex; */
+  /* flex-direction: row; */
+  display: grid;
+  grid-template-columns: auto 1fr ;
+  gap: 40px;
+}
+@media(max-width: 684px){
+  .body-divs{
+    grid-template-columns: 1fr;
+    place-items: center;
+  }
+  .all{
+    height: 200vh;
   }
 }

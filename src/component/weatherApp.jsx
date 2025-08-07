@@ -2,6 +2,9 @@ import { useState } from "react";
 import CountryRegion from "./countryRegion.jsx";
 import './css/weatherApp.css'
 import WindPressure from "./windPressure.jsx";
+import TempCel from "./tempCel.jsx";
+
+import SunnyBackground from './images/sunnyBackground.jpg';
 function Weatherapp() {
     const [city, setCity] = useState("");
     const [data, setData] = useState({
@@ -20,7 +23,7 @@ function Weatherapp() {
 
     async function current(city) {
         try {
-            const information = await fetch(`https://api.weatherapi.com/v1/current.json?key=9f08915818eb43fe8f5172210250508&q=${city}`)
+            const information = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=9f08915818eb43fe8f5172210250508&q=${city}`)
             const data = await information.json();
             setData({
                 region: data.location.region,
@@ -36,7 +39,19 @@ function Weatherapp() {
                 WeatherConditionText: data.current.condition.text,
                 dateLastUpdated: data.current.last_updated,
                 precipitationInInches: data.current.precip_in,
-                humidity: data.current.humidity
+                humidity: data.current.humidity,
+
+
+                tempCel: data.current.temp_c,
+                IsDay: data.current.is_day? "Day":"Night",
+                isDayTrue: data.current.is_day,
+                iconWeather: data.current.condition.icon,
+                uvIndex: data.current.uv,
+                pressure: data.current.pressure_in,
+                maxTemp:data.forecast.forecastday[0].day.maxtemp_c,
+                minTemp:data.forecast.forecastday[0].day.mintemp_c,
+                sunrise:data.forecast.forecastday[0].astro.sunrise,
+                sunset:data.forecast.forecastday[0].astro.sunset,
 
             })
         }
@@ -108,28 +123,68 @@ function Weatherapp() {
         console.log(city)
         console.log(data)
     }
+    
+                
+
+
+
+
+
+
 
     const getBackgroundStyle = (condition) => {
         if (condition === "Sunny") {
-            return { background: "linear-gradient(to right, #fbc2ebd0, #ffb87ec7)" , backdropFilter: "blur(2px)"};
-        } else if (condition === "Partly cloudy") {
-            return { background: "linear-gradient(to top, #a4c4ffc7, #cfdef3cb)", backdropFilter: "blur(2px)" };
+            return {
+                background: "linear-gradient(to right, rgba(251, 194, 235, 0.85), rgba(255, 184, 126, 0.85))",
+                backdropFilter: "blur(2px)",
+                className: "SunnyBackground"
+            };
+        } else if (condition === "Partly cloudy" || condition === "Partly Cloudy") {
+            return {
+                background: "linear-gradient(to top, rgba(127, 158, 216, 0.85), rgba(198, 222, 255, 0.85))",
+                backdropFilter: "blur(2px)"
+            };
         } else if (condition === "Cloudy") {
-            return { background: "linear-gradient(to right, #bdc3c7cc, #2c3e50c5)", color: "white", backdropFilter: "blur(2px)" };
+            return {
+                background: "linear-gradient(to right, rgba(189, 195, 199, 0.85), rgba(44, 62, 80, 0.85))",
+                color: "white",
+                backdropFilter: "blur(2px)"
+            };
         } else if (condition === "Rain") {
-            return { background: "linear-gradient(to right, #5f9cffcb, #c2e9fbcc)" , backdropFilter: "blur(2px)"};
+            return {
+                background: "linear-gradient(to right, rgba(95, 156, 255, 0.85), rgba(194, 233, 251, 0.85))",
+                backdropFilter: "blur(2px)"
+            };
         } else if (condition === "Snow") {
-            return { background: "linear-gradient(to right, #e0eafccb, #fff)" , backdropFilter: "blur(2px)"};
+            return {
+                background: "linear-gradient(to right, rgba(224, 234, 252, 0.85), rgba(255, 255, 255, 0.85))",
+                backdropFilter: "blur(2px)"
+            };
         } else if (condition === "Thunderstorm" || condition === "Overcast") {
-            return { background: "linear-gradient(to right, #283e51d2, #485563c7)", color: "white", backdropFilter: "blur(2px)" };
+            return {
+                background: "linear-gradient(to right, rgba(32, 49, 63, 0.85), rgba(88, 105, 122, 0.85))",
+                color: "white", 
+                backdropFilter: "blur(2px)"
+            };
         } else if (condition === "Mist") {
-            return { background: "linear-gradient(to right, #cccccce3, #556475cc)" , backdropFilter: "blur(2px)"};
-        } else {
-            return { background: "linear-gradient(to right, #ffac59c9, #ffa0a0cb)", backdropFilter: "blur(2px)" }; // default
+            return {
+                background: "linear-gradient(to right, rgba(221, 221, 221, 0.85), rgba(81, 98, 117, 0.85))",
+                backdropFilter: "blur(2px)"
+            };
+        } else if (condition === "Light rain shower"){
+            return {
+                background: "linear-gradient(to right, rgba(221, 221, 221, 0.85), rgba(81, 98, 117, 0.85))",
+                backdropFilter: "blur(2px)"
+            };}
+        else {
+            return {
+                background: "linear-gradient(to right, rgba(255, 172, 89, 0.85), rgba(255, 160, 160, 0.85))",
+                backdropFilter: "blur(2px)"
+            }; // default
         }
     };
     return (
-        <>
+        <div className="all">
             <h1 style={{ marginTop: "0", textShadow: "1px 1px 10px black" }}>Weather App: </h1>
             <div className="input-search-dropdown">
                 <div className="input-search-dropdown-subdiv">
@@ -160,30 +215,45 @@ function Weatherapp() {
                     )}
                 </div>
             </div>
-            <div className="region-wind">
-                {data.country !== "" && <CountryRegion country={data.country}
-                    region={data.region}
-                    lat={data.lat}
-                    long={data.long}
-                    timeZone={data.timeZone}
-                    localTime={data.localTime}
-                    name={data.name}
-                    // conditionText={data.conditionText}
-                    style={{...getBackgroundStyle(data.WeatherConditionText),
+            {data.country !== "" && <div className="body-divs">
+                <div className="region-wind">
+                    {data.country !== "" && <CountryRegion country={data.country}
+                        region={data.region}
+                        lat={data.lat}
+                        long={data.long}
+                        timeZone={data.timeZone}
+                        localTime={data.localTime}
+                        name={data.name}
+                        // conditionText={data.conditionText}
+                        style={{
+                            ...getBackgroundStyle(data.WeatherConditionText),
                             flex: "1"
-                    }} />}
-                {data.country !== "" && <WindPressure
-                    windSpeed = {data.windSpeed}
-                    windDegree = {data.windDegree}
-                    WeatherConditionText = {data.WeatherConditionText}
-                    precipitationInInches = {data.precipitationInInches}
-                    humidity = {data.humidity}
-                    dateLastUpdated = {data.dateLastUpdated}
-                    style={{...getBackgroundStyle(data.WeatherConditionText),
-                            flex: "1"}}/>}
-            </div>
-
-        </>
+                        }} />}
+                    {data.country !== "" && <WindPressure
+                        windSpeed={data.windSpeed}
+                        windDegree={data.windDegree}
+                        WeatherConditionText={data.WeatherConditionText}
+                        precipitationInInches={data.precipitationInInches}
+                        humidity={data.humidity}
+                        dateLastUpdated={data.dateLastUpdated}
+                        style={{
+                            ...getBackgroundStyle(data.WeatherConditionText),
+                            flex: "1"
+                        }} />}
+                </div>
+                <TempCel
+                    iconWeather={data.iconWeather}
+                    tempCel = {data.tempCel}
+                    IsDay = {data.IsDay}
+                    uvIndex = {data.uvIndex}
+                    pressure = {data.pressure}
+                    isDayTrue = {data.isDayTrue}
+                    maxTemp = {data.maxTemp}
+                    minTemp = {data.minTemp}
+                    sunrise = {data.sunrise}
+                    sunset = {data.sunset}/>
+            </div>}
+        </div>
     )
 }
 export default Weatherapp;
