@@ -96,8 +96,27 @@ b{
 .big-box-dark{
     /* font-size: 16px; */
     grid-template-columns: 1fr;
+    gap: 20px;
 }
 .two{
     padding-top: 0px;
+}
+
+.three{
+        padding-top: 0px;
+
+
+}
+.four{
+        padding-top: 0px;
+
+}
+.five{
+        padding-top: 0px;
+
+}
+.six{
+        padding-top: 0px;
+
 }
 }
