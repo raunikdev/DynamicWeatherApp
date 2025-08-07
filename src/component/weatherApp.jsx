@@ -147,7 +147,7 @@ function Weatherapp() {
                 imageUrl = sunnyImg;
             } else if (lowerCond.includes("partly cloudy") || lowerCond.includes("partly")) {
                 imageUrl = partlyCloudyImg;
-            } else if (lowerCond.includes("cloudy") || lowerCond.includes("cloud")) {
+            } else if (lowerCond.includes("cloudy") || lowerCond.includes("cloud") ) {
                 imageUrl = cloudyImg;
             } else if (lowerCond.includes("rain") || lowerCond.includes("drizzle")) {
                 // This catches: light rain, rain shower, patchy rain, etc.
