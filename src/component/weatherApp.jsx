@@ -4,15 +4,15 @@ import './css/weatherApp.css'
 import WindPressure from "./windPressure.jsx";
 import TempCel from "./tempCel.jsx";
 
-import sunnyImg from './images/sunny.jpg';
-import partlyCloudyImg from './images/partlyCloudy.jpeg';
-import cloudyImg from './images/cloudy.jpg';
-import rainImg from './images/rain.jpg';
-import snowImg from './images/snow.jpg';
-import thunderstormImg from './images/thunderstorm.jpg';
-import mistImg from './images/mist.jpg';
-import lightRainShowerImg from './images/lightRainShower.jpg';
-import defaultImg from './images/startingBackgroundImage.jpg';
+import sunnyImg from './images/sunny.webp';
+import partlyCloudyImg from './images/partlyCloudy.webp';
+import cloudyImg from './images/cloudy.webp';
+import rainImg from './images/rain.webp';
+import snowImg from './images/snow.webp';
+import thunderstormImg from './images/thunderstorm.webp';
+import mistImg from './images/mist.webp';
+import lightRainShowerImg from './images/lightRainShower.webp';
+import defaultImg from './images/startingBackgroundImage.webp';
 
 
 
@@ -149,9 +149,11 @@ function Weatherapp() {
                 imageUrl = partlyCloudyImg;
             } else if (lowerCond.includes("cloudy") || lowerCond.includes("cloud") ) {
                 imageUrl = cloudyImg;
-            } else if (lowerCond.includes("rain") || lowerCond.includes("drizzle")) {
+            } else if (lowerCond.includes("light rain") || lowerCond.includes("drizzle")) {
                 // This catches: light rain, rain shower, patchy rain, etc.
                 imageUrl = lightRainShowerImg;
+            } else if (lowerCond.includes("rain")) {
+                imageUrl = rainImg
             } else if (lowerCond.includes("thunder") || lowerCond.includes("overcast")) {
                 imageUrl = thunderstormImg;
             } else if (lowerCond.includes("snow")) {
