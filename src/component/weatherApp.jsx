@@ -169,6 +169,7 @@ function Weatherapp() {
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
+                backgroundattachment: "fixed",
                 backdropFilter: 'blur(2px)',
                 transition: 'background-image 0.5s ease-in-out',
             };
