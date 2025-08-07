@@ -48,7 +48,9 @@ b{
         padding-top: 32px;
     }
     .four{
+        display: flex;
         justify-content: center;
+        
     }
 }
 .two{
@@ -62,7 +64,7 @@ b{
     display: flex;
     justify-content: flex-end;
     padding-top: 32px
-}
+
 }
 .four{
     
@@ -70,7 +72,7 @@ b{
     justify-content: flex-start;
     padding-top: 32px;
     padding-right: 10px;
-}
+}}
 .five{
     
     display: flex;
@@ -82,4 +84,7 @@ b{
     display: flex;
     justify-content: flex-end;;
     padding-top: 32px
+}
+b{
+    display: flex;
 }

@@ -4,7 +4,18 @@ import './css/weatherApp.css'
 import WindPressure from "./windPressure.jsx";
 import TempCel from "./tempCel.jsx";
 
-import SunnyBackground from './images/sunnyBackground.jpg';
+import sunnyImg from './images/sunny.jpg';
+import partlyCloudyImg from './images/partlyCloudy.jpeg';
+import cloudyImg from './images/cloudy.jpg';
+import rainImg from './images/rain.jpg';
+import snowImg from './images/snow.jpg';
+import thunderstormImg from './images/thunderstorm.jpg';
+import mistImg from './images/mist.jpg';
+import lightRainShowerImg from './images/lightRainShower.jpg';
+import defaultImg from './images/startingBackgroundImage.jpg';
+
+
+
 function Weatherapp() {
     const [city, setCity] = useState("");
     const [data, setData] = useState({
@@ -125,6 +136,55 @@ function Weatherapp() {
     }
     
                 
+    const getBackgroundImageStyle = (condition) => {
+    let imageUrl;
+
+    switch (condition) {
+        case "Sunny":
+            imageUrl = sunnyImg;
+            break;
+        case "Partly cloudy":
+        case "Partly Cloudy":
+            imageUrl = partlyCloudyImg;
+            break;
+        case "Cloudy":
+            imageUrl = cloudyImg;
+            break;
+        case "Rain":
+            imageUrl = rainImg;
+            break;
+        case "Snow":
+            imageUrl = snowImg;
+            break;
+        case "Thunderstorm":
+        case "Overcast":
+        case "Patchy light rain with thunder":
+        case "Moderate or heavy rain with thunder":
+            imageUrl = thunderstormImg;
+            break;
+        case "Mist":
+        case "Clear":
+            imageUrl = mistImg;
+            break;
+        case "Light rain":
+        case "Light rain shower":
+        case "Patchy rain nearby":
+            imageUrl = lightRainShowerImg;
+            break;
+        default:
+            imageUrl = defaultImg;
+            break;
+        }
+
+        return {
+            backgroundImage: `url(${imageUrl})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            backdropFilter: 'blur(2px)', // Optional
+            transition: 'background-image 0.5s ease-in-out',
+        };
+    };
 
 
 
@@ -146,7 +206,7 @@ function Weatherapp() {
             };
         } else if (condition === "Cloudy") {
             return {
-                background: "linear-gradient(to right, rgba(189, 195, 199, 0.85), rgba(44, 62, 80, 0.85))",
+                background: "linear-gradient(to right, rgba(201, 188, 188, 0.85), rgba(44, 62, 80, 0.85))",
                 color: "white",
                 backdropFilter: "blur(2px)"
             };
@@ -160,18 +220,18 @@ function Weatherapp() {
                 background: "linear-gradient(to right, rgba(224, 234, 252, 0.85), rgba(255, 255, 255, 0.85))",
                 backdropFilter: "blur(2px)"
             };
-        } else if (condition === "Thunderstorm" || condition === "Overcast") {
+        } else if (condition === "Thunderstorm" || condition === "Overcast" || condition === "Patchy light rain with thunder" || condition === "Moderate or heavy rain with thunder") {
             return {
                 background: "linear-gradient(to right, rgba(32, 49, 63, 0.85), rgba(88, 105, 122, 0.85))",
                 color: "white", 
                 backdropFilter: "blur(2px)"
             };
-        } else if (condition === "Mist") {
+        } else if (condition === "Mist" || condition === "Clear") {
             return {
                 background: "linear-gradient(to right, rgba(221, 221, 221, 0.85), rgba(81, 98, 117, 0.85))",
                 backdropFilter: "blur(2px)"
             };
-        } else if (condition === "Light rain shower"){
+        } else if (condition === "Light rain shower" || condition === "Light rain" || condition === "Patchy rain nearby"){
             return {
                 background: "linear-gradient(to right, rgba(221, 221, 221, 0.85), rgba(81, 98, 117, 0.85))",
                 backdropFilter: "blur(2px)"
@@ -184,7 +244,7 @@ function Weatherapp() {
         }
     };
     return (
-        <div className="all">
+        <div className="all" style={getBackgroundImageStyle(data.WeatherConditionText)}>
             <h1 style={{ marginTop: "0", textShadow: "1px 1px 10px black" }}>Weather App: </h1>
             <div className="input-search-dropdown">
                 <div className="input-search-dropdown-subdiv">
